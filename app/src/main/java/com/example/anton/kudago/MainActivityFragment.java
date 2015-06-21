@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageSwitcher;
@@ -52,21 +54,6 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-//
-//        final String childText = (String) getChild(groupPosition, childPosition);
-//
-//        if (convertView == null) {
-//            LayoutInflater infalInflater = (LayoutInflater) this._context
-//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            convertView = infalInflater.inflate(R.layout.list_item, null);
-//        }
-//
-//        TextView titleText = (TextView) convertView.findViewById(R.id.newsTitleEditText);
-//        TextView contentText = (TextView) convertView.findViewById(R.id.newContentEditText);
-//
-//        titleText.setText("Title asdasd");
-//        contentText.setText("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-
         return null; //convertView;
     }
 
@@ -115,10 +102,11 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
         titleText.setText(headerData.getNewsTitle());
         titleText.setTypeface(null, Typeface.BOLD);
 
+//        contentText.settex
         contentText.setText(headerData.getNewsContent());
 
         if (newsImage != null) {
-            newsImage.setImageDrawable(headerData.getNewsIcon());
+            newsImage.setImageResource(R.drawable.news1);//.setImageDrawable(headerData.getNewsIcon());
         }
 
         return convertView;
@@ -180,7 +168,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragamentView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View fragamentView = inflater.inflate(R.layout.fragment_main, container, false);
 
         expListView = (ExpandableListView)fragamentView.findViewById(R.id.commentsListView);
 
@@ -228,6 +216,26 @@ public class MainActivityFragment extends Fragment {
                     currentIndex = 0;
 
                 imageSwitcher.setImageResource(imageIds[currentIndex]);
+            }
+        });
+
+        expListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int action = event.getAction();
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        imageSwitcher.setVisibility(View.GONE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        imageSwitcher.setVisibility(View.VISIBLE);
+                        break;
+                }
+
+                v.onTouchEvent(event);
+                return true;
             }
         });
 
