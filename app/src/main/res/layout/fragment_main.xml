@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivityFragment"
+    android:focusableInTouchMode="false"
+    android:baselineAligned="false"
+    android:divider="@android:color/darker_gray">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageSwitcher
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rootImageSwitcher" />
+    </FrameLayout>
+
+    <ExpandableListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentsListView"
+        android:layout_gravity="top" />
+
+</LinearLayout>
