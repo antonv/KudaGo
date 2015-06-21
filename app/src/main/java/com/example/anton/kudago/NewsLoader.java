@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface NewsLoader {
 
-    ImageLoader getNewsIcon();
+    Drawable getNewsIcon();
 
     String getNewsTitle();
 

@@ -15,5 +15,5 @@ public interface ImageLoader {
     /**
      * Created by anton_000 on 21.06.2015.
      */
-    Drawable getImage(int idx);
+    Drawable getImage();
 }

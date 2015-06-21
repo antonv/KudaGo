@@ -7,14 +7,18 @@ import android.graphics.drawable.Drawable;
  */
 public class AsyncImageLoader implements ImageLoader {
 
+
+    public AsyncImageLoader() {
+
+    }
+
     @Override
     public int getImagesCount() {
         return 0;
     }
 
     @Override
-    public Drawable getImage(int idx) {
-
+    public Drawable getImage() {
         return null;
     }
 }
