@@ -6,27 +6,14 @@
     tools:context=".MainActivityFragment"
     android:focusableInTouchMode="false"
     android:baselineAligned="false"
-    android:divider="@android:color/darker_gray">
+    android:divider="@android:color/darker_gray"
+    tools:showIn="@layout/activity_main">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/frameLayout">
-
-        <ImageSwitcher
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rootImageSwitcher" />
-    </FrameLayout>
-
-    <ExpandableListView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/commentsListView"
         android:layout_gravity="top"
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignParentStart="true"
-        android:layout_alignStart="@id/frameLayout" />
-
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
