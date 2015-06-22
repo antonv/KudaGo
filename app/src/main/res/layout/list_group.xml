@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:columnCount="3"
     android:alignmentMode="alignBounds"
-    android:rowCount="4"
     android:longClickable="true">
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/newsImageView"
-        android:layout_row="1"
-        android:layout_column="0"
         android:src="@mipmap/ic_launcher"
-        android:layout_rowSpan="2"
         android:layout_gravity="top"
         android:cropToPadding="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/newsTitleText"
-        android:text="New Title from the site"
-        android:layout_row="1"
-        android:layout_column="2"
-        android:paddingLeft="5dp"
-        android:paddingTop="5dp"
-        android:paddingRight="5dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/newsContentText"
-        android:layout_row="2"
-        android:layout_column="2"
-        android:text="news contents from the site ddddddddddddddddddddddddddddddd"
-        android:padding="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newsTitleText"
+            android:text="New Title from the site"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp" />
 
-</GridLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/newsContentText"
+            android:text="news contents from the site ddddddddddddddddddddddddddddddd"
+            android:padding="10dp" />
+    </LinearLayout>
+
+</LinearLayout>
