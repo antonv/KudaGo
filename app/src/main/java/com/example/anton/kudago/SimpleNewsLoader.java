@@ -8,35 +8,30 @@ import java.util.List;
 /**
  * Created by anton_000 on 21.06.2015.
  */
-public class AsyncNewsLoader implements NewsLoader {
+public class SimpleNewsLoader implements NewsLoader {
 
     Drawable mImage = null;
     String   mTitle = null;
     String   mContent = null;
 
-    AsyncNewsLoader(String title, String content, Drawable image) {
+    SimpleNewsLoader(String title, String content, Drawable image) {
         this.mImage   = mImage;
         this.mTitle   = title;
         this.mContent = content;
     }
 
     @Override
-    public Drawable getNewsIcon() {
+    public Drawable getIcon() {
         return mImage;
     }
 
     @Override
-    public String getNewsTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
     @Override
-    public String getNewsContent() {
+    public String getContent() {
         return mContent;
-    }
-
-    @Override
-    public List<CommentsLoader> getComments() {
-        return null;
     }
 }

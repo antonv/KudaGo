@@ -9,11 +9,9 @@ import java.util.List;
  */
 public interface NewsLoader {
 
-    Drawable getNewsIcon();
+    Drawable getIcon();
 
-    String getNewsTitle();
+    String getTitle();
 
-    String getNewsContent();
-
-    List<CommentsLoader> getComments();
+    String getContent();
 }
