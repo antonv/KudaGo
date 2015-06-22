@@ -30,8 +30,8 @@ class ExpandableListAdapter implements ListAdapter {
     private boolean              mIsHeadItem = true;
 
     public ExpandableListAdapter(Context context, List<NewsLoader> news, List<CommentsLoader> comments) {
-        this.mContext = context;
-        this.mNews = news;
+        this.mContext  = context;
+        this.mNews     = news;
         this.mComments = comments;
     }
 
