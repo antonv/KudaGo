@@ -15,7 +15,7 @@ public class SimpleNewsLoader implements NewsLoader {
     String   mContent = null;
 
     SimpleNewsLoader(String title, String content, Drawable image) {
-        this.mImage   = mImage;
+        this.mImage   = image;
         this.mTitle   = title;
         this.mContent = content;
     }

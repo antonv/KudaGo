@@ -9,16 +9,16 @@ import java.util.Date;
  */
 public class SimpleCommentsLoader implements CommentsLoader {
 
-    String mAuthor;
-    String mComment;
-    Drawable    mImage;
-    Date   mDate;
+    String   mAuthor  = null;
+    String   mComment = null;
+    Drawable mImage   = null;
+    Date     mDate    = null;
 
-    public SimpleCommentsLoader(String author, String comment, Date mDate, Drawable image){
+    public SimpleCommentsLoader(String author, String comment, Date date, Drawable image){
         mAuthor  = author;
         mComment = comment;
         mImage   = image;
-        mDate    = mDate;
+        mDate    = date;
     }
 
     @Override
