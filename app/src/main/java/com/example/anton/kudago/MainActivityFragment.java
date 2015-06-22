@@ -5,38 +5,34 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageSwitcher;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class ExpandableListAdapter implements ListAdapter { // BaseExpandableListAdapter {
+class ExpandableListAdapter implements ListAdapter {
 
+    private SimpleDateFormat     mDateFormatter = new SimpleDateFormat("dd MMM, HH:mm");
     private Context              mContext = null;
     private List<NewsLoader>     mNews = null;
     private List<CommentsLoader> mComments = null;
+    private boolean              mIsHeadItem = true;
 
     public ExpandableListAdapter(Context context, List<NewsLoader> news, List<CommentsLoader> comments) {
         this.mContext = context;
         this.mNews = news;
         this.mComments = comments;
     }
-    boolean isf = true;
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {    }
@@ -89,10 +85,9 @@ class ExpandableListAdapter implements ListAdapter { // BaseExpandableListAdapte
         if (newsData != null)
         {
             convertView = infalInflater.inflate(
-                    isf == true ? R.layout.list_group0 : R.layout.list_group,
-                    null);
-            isf = false;
+                    mIsHeadItem == true ? R.layout.list_group0 : R.layout.list_group, null);
 
+            mIsHeadItem = false;
 
             TextView titleText = (TextView) convertView.findViewById(R.id.newsTitleText);
             TextView contentText = (TextView) convertView.findViewById(R.id.newsContentText);
@@ -104,24 +99,26 @@ class ExpandableListAdapter implements ListAdapter { // BaseExpandableListAdapte
             contentText.setText(newsData.getContent());
 
             if (newsImage != null) {
-                newsImage.setImageResource(R.drawable.news1);//.setImageDrawable(newsData.getNewsIcon());
+                newsImage.setImageDrawable(newsData.getIcon());
             }
         }
         else if (commentData != null)
         {
             convertView = infalInflater.inflate(R.layout.list_comments, null);
 
-            TextView titleText = (TextView) convertView.findViewById(R.id.newsTitleText);
+            TextView titleText   = (TextView) convertView.findViewById(R.id.newsTitleText);
             TextView contentText = (TextView) convertView.findViewById(R.id.newsContentText);
-            ImageView newsImage = (ImageView) convertView.findViewById(R.id.newsImageView);
+            ImageView newsImage  = (ImageView) convertView.findViewById(R.id.newsImageView);
+            TextView dateText    = (TextView) convertView.findViewById(R.id.dateText);
 
             titleText.setText(commentData.getAuthor());
             titleText.setTypeface(null, Typeface.BOLD);
 
             contentText.setText(commentData.getContent());
+            dateText.setText(mDateFormatter.format(commentData.getDate()));
 
             if (newsImage != null) {
-                newsImage.setImageResource(R.drawable.news2);//.setImageDrawable(newsData.getNewsIcon());
+                newsImage.setImageDrawable(commentData.getAvatar());
             }
         }
 
@@ -165,11 +162,16 @@ class ExpandableListAdapter implements ListAdapter { // BaseExpandableListAdapte
  */
 public class MainActivityFragment extends Fragment {
 
-    ExpandableListAdapter mListAdapter;
-    ListView                mExpListView;
+    private final static int imageIds[] = {
+            R.drawable.rootspb1,
+            R.drawable.rootspb2,
+            R.drawable.rootspb3,
+            R.drawable.rootspb4};
 
-    private int currentIndex;
-    private int messageCount = 4;
+    ExpandableListAdapter mListAdapter = null;
+    ListView              mExpListView = null;
+
+    private int mCurrentImageIdx = 1;
 
     private List<CommentsLoader> prepareCommentListData() {
         List<CommentsLoader> listData = new ArrayList<CommentsLoader>();
@@ -181,11 +183,11 @@ public class MainActivityFragment extends Fragment {
         listData.add(new SimpleCommentsLoader("Elena 1",
                 "Comment text 2",
                 new Date(),
-                getResources().getDrawable(R.drawable.news1, null)));
+                getResources().getDrawable(R.drawable.news2, null)));
         listData.add(new SimpleCommentsLoader("Elena 2",
                 "Comment text 3",
                 new Date(),
-                getResources().getDrawable(R.drawable.news1, null)));
+                getResources().getDrawable(R.drawable.news3, null)));
         listData.add(new SimpleCommentsLoader("Elena 3",
                 "Comment text 4",
                 new Date(),
@@ -193,7 +195,7 @@ public class MainActivityFragment extends Fragment {
         listData.add(new SimpleCommentsLoader("Elena 4",
                 "Comment text 5",
                 new Date(),
-                getResources().getDrawable(R.drawable.news1, null)));
+                getResources().getDrawable(R.drawable.news2, null)));
 
         return listData;
     }
@@ -222,12 +224,6 @@ public class MainActivityFragment extends Fragment {
         return listData;
     }
 
-    int imageIds[]={
-            R.drawable.rootspb1,
-            R.drawable.rootspb2,
-            R.drawable.rootspb3,
-            R.drawable.rootspb4};
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -242,7 +238,7 @@ public class MainActivityFragment extends Fragment {
         final View headerView = inflater.inflate(R.layout.header, container, false);
         final View footerView = inflater.inflate(R.layout.footer, container, false);
 
-        ImageView imageView = (ImageView) headerView.findViewById(R.id.imageView2);
+        final ImageView imageView = (ImageView) headerView.findViewById(R.id.imageView2);
 
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setAdjustViewBounds(true);
@@ -250,10 +246,11 @@ public class MainActivityFragment extends Fragment {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEvent.ACTION_OUTSIDE == event.getAction())
-                {
-                    return false;
-                }
+                imageView.setImageResource(imageIds[mCurrentImageIdx++]);
+
+                if (mCurrentImageIdx >= imageIds.length)
+                    mCurrentImageIdx = 0;
+
                 return false;
             }
         });
