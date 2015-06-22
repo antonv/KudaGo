@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -238,6 +239,38 @@ public class MainActivityFragment extends Fragment {
         final View headerView = inflater.inflate(R.layout.header, container, false);
         final View footerView = inflater.inflate(R.layout.footer, container, false);
 
+        mExpListView.addHeaderView(headerView);
+        mExpListView.addFooterView(footerView);
+
+        // setting list adapter
+        mExpListView.setAdapter(mListAdapter);
+
+        //////////////////////////////////////////////////////////////////////////////////
+
+        mExpListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem > 0) {
+                    Object listItem = view.getAdapter().getItem(firstVisibleItem);
+
+                    if (listItem instanceof NewsLoader) {
+                        NewsLoader loader = (NewsLoader)listItem;
+                        getActivity().getActionBar().setTitle(loader.getTitle());
+                    }
+                }
+                else {
+                    getActivity().getActionBar().setTitle(R.string.app_name);
+                }
+            }
+        });
+
+        //////////////////////////////////////////////////////////////////////////////////
+
         final ImageView imageView = (ImageView) headerView.findViewById(R.id.imageView2);
 
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -255,11 +288,6 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        mExpListView.addHeaderView(headerView);
-        mExpListView.addFooterView(footerView);
-
-        // setting list adapter
-        mExpListView.setAdapter(mListAdapter);
 
         return fragamentView;
     }
