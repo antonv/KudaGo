@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date/Time"
-        android:id="@+id/textView"
+        android:id="@+id/dateText"
         android:layout_row="4"
         android:layout_column="2"
         android:paddingLeft="5dp"
