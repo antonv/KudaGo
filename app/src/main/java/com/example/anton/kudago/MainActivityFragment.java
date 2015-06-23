@@ -23,10 +23,16 @@ import java.util.List;
 
 class ExpandableListAdapter implements ListAdapter {
 
+    private static final int typesCount = 3;
+
+    private static final int mainNewsTypeTag = 0;
+    private static final int newsTypeTag     = 1;
+    private static final int commentTypeTag  = 2;
+
     private SimpleDateFormat     mDateFormatter = new SimpleDateFormat("dd MMM, HH:mm");
-    private Context              mContext = null;
-    private List<NewsLoader>     mNews = null;
-    private List<CommentsLoader> mComments = null;
+    private Context              mContext    = null;
+    private List<NewsLoader>     mNews       = null;
+    private List<CommentsLoader> mComments   = null;
     private boolean              mIsHeadItem = true;
 
     public ExpandableListAdapter(Context context, List<NewsLoader> news, List<CommentsLoader> comments) {
@@ -129,17 +135,17 @@ class ExpandableListAdapter implements ListAdapter {
     @Override
     public int getItemViewType(int position) {
         if (position == 0)
-            return 0;
+            return mainNewsTypeTag;
 
         if (position >= mNews.size())
-            return 1;
+            return newsTypeTag;
 
-        return 2;
+        return commentTypeTag;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return typesCount;
     }
 
     @Override
@@ -249,9 +255,7 @@ public class MainActivityFragment extends Fragment {
 
         mExpListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) { }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
